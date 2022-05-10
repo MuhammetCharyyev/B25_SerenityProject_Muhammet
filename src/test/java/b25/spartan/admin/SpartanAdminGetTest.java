@@ -3,6 +3,7 @@ package b25.spartan.admin;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import net.serenitybdd.junit5.SerenityTest;
+import net.serenitybdd.rest.Ensure;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +57,15 @@ public class SpartanAdminGetTest {
 
         System.out.println("lastResponse().path(\"id\") = " + lastResponse().path("id"));
 
+        System.out.println(lastResponse().jsonPath().getString("name"));
+
+        Ensure.that("status code is 200", vRes -> vRes.statusCode(200));
+        //Ensure.that is for assertion, we use lambda here to put assertion condition
+         //Ensure is soft assertion and to take report into Serenity
+        Ensure.that("content type is Jason", vRes -> vRes.contentType(ContentType.JSON));
+
+        Ensure.that("ID is 8", vRes -> vRes.body("id", is(8)));
+        //to verify we use also 'is' from RestAssured
 
     }
 }
